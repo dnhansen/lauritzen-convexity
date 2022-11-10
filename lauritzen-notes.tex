@@ -1,0 +1,354 @@
+% Document setup
+\documentclass[article, a4paper, 11pt, oneside]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+
+% Document info
+\newcommand\doctitle{Lauritzen: \emph{Undergraduate Convexity}}
+\newcommand\docauthor{Danny Nygård Hansen}
+
+% Formatting and layout
+\usepackage[autostyle]{csquotes}
+\renewcommand{\mktextelp}{(\textellipsis\unkern)}
+\usepackage[final]{microtype}
+\usepackage{xcolor}
+\frenchspacing
+\usepackage{latex-sty/articlepagestyle}
+\usepackage{latex-sty/articlesectionstyle}
+
+% Fonts
+\usepackage{amssymb}
+\usepackage[largesmallcaps,partialup]{kpfonts}
+\DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
+\linespread{1.06}
+% \let\mathfrak\undefined
+% \usepackage{eufrak}
+\DeclareMathAlphabet\mathfrak{U}{euf}{m}{n}
+\SetMathAlphabet\mathfrak{bold}{U}{euf}{b}{n}
+% https://tex.stackexchange.com/questions/13815/kpfonts-with-eufrak
+\usepackage{inconsolata}
+
+% Hyperlinks
+\usepackage{hyperref}
+\definecolor{linkcolor}{HTML}{4f4fa3}
+\hypersetup{%
+	pdftitle=\doctitle,
+	pdfauthor=\docauthor,
+	colorlinks,
+	linkcolor=linkcolor,
+	citecolor=linkcolor,
+	urlcolor=linkcolor,
+	bookmarksnumbered=true
+}
+
+% Equation numbering
+\numberwithin{equation}{chapter}
+
+% Footnotes
+\footmarkstyle{\textsuperscript{#1}\hspace{0.25em}}
+
+% Mathematics
+\usepackage{latex-sty/basicmathcommands}
+\usepackage{latex-sty/framedtheorems}
+\usepackage{latex-sty/topologycommands}
+\usepackage{tikz-cd}
+\tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
+\usetikzlibrary{babel}
+
+% Lists
+\usepackage{enumitem}
+\setenumerate[0]{label=\normalfont(\alph*)}
+\setlist{
+    listparindent=\parindent,
+    parsep=0pt,
+}
+
+% Bibliography
+\usepackage[backend=biber, style=authoryear, maxcitenames=2, useprefix]{biblatex}
+\addbibresource{references.bib}
+
+% Title
+\title{\doctitle}
+\author{\docauthor}
+
+\newcommand{\setF}{\mathbb{F}}
+\newcommand{\ev}{\mathrm{ev}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\borel}{\mathcal{B}}
+\newcommand{\measurable}{\mathcal{M}}
+\newcommand{\wto}{\Rightarrow}
+\DeclarePairedDelimiter{\net}{\langle}{\rangle}
+\newcommand{\strucS}{\mathfrak{S}}
+\DeclarePairedDelimiter{\gen}{\langle}{\rangle} % Generating set
+\newcommand{\frakL}{\mathfrak{L}}
+
+\newcommand{\bbK}{\mathbb{K}}
+
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator*{\slim}{s-lim}
+
+\newenvironment{displaytheorem}{%
+	\begin{displayquote}\itshape%
+}{%
+	\end{displayquote}%
+}
+
+
+%% Framed exercise environment
+
+\mdfdefinestyle{swannexercise}{%
+    skipabove=0.5em plus 0.4em minus 0.2em,
+	skipbelow=0.5em plus 0.4em minus 0.2em,
+	leftmargin=-5pt,
+	rightmargin=-5pt,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=5pt,
+	innerbottommargin=4pt,
+	linewidth=0pt,
+	splittopskip=1.2em minus 0.2em,
+	splitbottomskip=0.5em plus 0.2em minus 0.1em,
+	backgroundcolor=backgroundcolor,
+	frametitlebackgroundcolor=titlecolor,
+	frametitlefont={\scshape},
+    theoremseparator={\space\thechapter},
+    theoremspace={.},
+	frametitleaboveskip=3pt,
+	frametitlebelowskip=2pt
+}
+
+\mdtheorem[style=swannexercise]{exerciseframed}{Exercise}
+
+\let\oldexerciseframed\exerciseframed
+\renewcommand{\exerciseframed}{%
+  \crefalias{theorem}{exerciseframed}%
+  \oldexerciseframed}
+
+\makeatother
+
+
+
+\theoremstyle{nonumberplain}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{solution}{Solution}
+
+\let\oldsolution\solution
+\renewcommand{\solution}{%
+  \crefalias{theorem}{solution}%
+  \oldsolution}
+
+\newcommand{\solutionlabelfont}[1]{{\normalfont\color{linkcolor}#1}}
+\newlist{solutionsec}{enumerate}{1}
+\setlist[solutionsec]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\solutionlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
+
+
+\begin{document}
+
+\maketitle
+
+\addtocounter{chapter}{1}
+
+\chapter{Affine subspaces}
+
+\section*{General notes}
+
+\begin{remarkbreak}[Linear subspaces are null spaces]
+    In the proof of Proposition~2.6 we use the fact that every linear subspace $W$ of $\reals^d$ is the null space for some $m \prod d$ matrix $A$ with $m \leq d$. We prove a more general claim:
+    %
+    \begin{displaytheorem}
+        Let $V$ be a vector space, and let $U$ be a complemented subspace of $V$. Then $U$ is the kernel of some surjective linear map $\phi \colon V \to W$.
+    \end{displaytheorem}
+    %
+    Recall that $U$ is a complemented subspace of $V$ if $V$ has a subspace $U'$ such that $V = U \oplus U'$. In this case $V$ is the coproduct of $U$ and $U'$, so if $0 \colon U \to U'$ is the the map sending every element of $U$ to $0$, then the coproduct map $\phi = [0, \id_{U'}] \colon U \oplus U' \to U'$ is a linear map with kernel $U$. To prove this last claim, note that we clearly have $U \subseteq \ker\phi$, and conversely of $u + u' \in \ker\phi$ then
+    %
+    \begin{equation*}
+        0
+            = \phi(u+u')
+            = 0(u) + \id_{U'}(u')
+            = u',
+    \end{equation*}
+    %
+    so $u + u' = u \in U$. Also, $\phi$ is clearly surjective.
+
+    In the case of Proposition~2.6, since $\reals^d$ is finite-dimensional every subspace is complemented (e.g. by basis considerations), so there is a $\phi$ as above with $\ker\phi = W$. Since $\phi$ is surjective its codomain has dimension $m \leq d$. To obtain $A$, simply take the standard matrix representation of $\phi$.
+\end{remarkbreak}
+
+
+\section*{Exercises}
+
+% [TODO exercise references]
+
+\begin{exerciseframed*}[4]
+    Prove that $M = \set{v \in \reals^d}{Av = b}$ is an affine subspace of $\reals^d$, where $A$ is an $m \prod d$ matrix and $b \in \reals^m$.
+\end{exerciseframed*}
+
+\begin{solution}
+    For $u,v \in \reals^d$ and $t \in \reals$ we have
+    %
+    \begin{equation*}
+        A((1-t)u + tv)
+            = (1-t)Au + tAv
+            = (1-t)b + tb
+            = b.
+    \end{equation*}
+\end{solution}
+
+
+\begin{exerciseframed*}[9]
+    Prove that $f(x) = h(x) + b$ is an affine map if $h \colon \reals^d \to \reals^m$ is a linear map and $b \in \reals^m$. Prove that $h(x) = f(x) - f(0)$ is a linear map if $f : \reals^d \to \reals^m$ is an affine map.
+\end{exerciseframed*}
+
+\begin{solution}
+    First assume that $h$ is linear, and let $u,v \in \reals^d$ and $t \in \reals$. Then
+    %
+    \begin{align*}
+        f((1-t)u + tv)
+            &= h((1-t)u + tv) + b \\
+            &= (1-t)h(u) + th(v) + (1-t)b + t(b) \\
+            &= (1-t)(h(u) + b) + t(h(v) + b) \\
+            &= (1-t)f(u) + tf(v),
+    \end{align*}
+    %
+    so $f$ is affine. Next assume that $f$ is affine, and let $u,v \in \reals^d$ and $\beta \in \reals$. If $\beta = -1$ then
+    %
+    \begin{align*}
+        h((-1)u)
+            &= f((-1)u) - f(0)
+             = f(2 \cdot 0 + (-1)u) - f(0) \\
+            &= 2f(0) - f(u) - f(0)
+             = -h(u).
+    \end{align*}
+    %
+    If instead $\beta \neq -1$, then
+    %
+    \begin{align*}
+        h(\beta u + v)
+            &= f(\beta u + v) - f(0) \\
+            &= f \bigl(
+                    \tfrac{\beta}{\beta+1} (\beta+1)u
+                    + \tfrac{1}{\beta+1} (\beta+1)v
+                \bigr)
+                - f(0) \\
+            &= \tfrac{\beta}{\beta+1} f((\beta+1)u)
+                + \tfrac{1}{\beta+1} f((\beta+1)v)
+                + \bigl(
+                    \tfrac{\beta^2}{\beta+1}
+                    + \tfrac{\beta}{\beta+1}
+                    - (\beta+1)
+                \bigr) f(0) \\
+            &= \beta \bigl( 
+                    \tfrac{1}{\beta+1} f((\beta+1)u)
+                    + \tfrac{\beta}{\beta+1} f(0)
+                \bigr)
+                    + \bigl( \tfrac{1}{\beta+1} f((\beta+1)v)
+                    + \tfrac{\beta}{\beta+1} f(0)
+                \bigr)
+                - (\beta+1)f(0) \\
+            &= \beta f(u) + f(v) - (\beta+1) f(0) \\
+            &= \beta (f(u) - f(0)) + (f(v) - f(0)) \\
+            &= \beta h(u) + h(v).
+    \end{align*}
+\end{solution}
+
+
+\begin{exerciseframed*}[10]
+    Prove that you can have no more than $d+1$ affinely independent vectors in $\reals^d$.
+\end{exerciseframed*}
+
+\begin{solution}
+    Let $\{v_1, \ldots, v_n\} \subseteq \reals^d$ be affinely independent. By Proposition~2.9, the $n-1$ vectors $v_2 - v_1, \ldots, v_n - v_1$ vectors are linearly independent. But then we must have $n-1 \leq d$, i.e. $n \leq d+1$.
+\end{solution}
+
+
+\begin{exerciseframed*}[11]
+    Let $v_0, \ldots, v_d$ be affinely independent points in $\reals^d$. Prove that
+    %
+    \begin{equation*}
+        f(x) = (\lambda_0, \lambda_1, \ldots, \lambda_d)
+    \end{equation*}
+    %
+    is a well defined affine map $f \colon \reals^d \to \reals^{d+1}$, where
+    %
+    \begin{equation*}
+        x = \lambda_0 v_0 + \cdots + \lambda_d v_d
+    \end{equation*}
+    %
+    with $\lambda_0 + \cdots + \lambda_d = 1$.
+\end{exerciseframed*}
+
+\begin{solution}
+    If also $x = \mu_0 v_0 + \cdots + \mu_d v_d$ with $\mu_0 + \cdots + \mu_d = 1$, then
+    %
+    \begin{equation*}
+        (\lambda_0 - \mu_0) v_0 + \cdots + (\lambda_d - \mu_d) v_d
+            = 0,
+    \end{equation*}
+    %
+    so since the $v_i$ are affinely independent we have $\lambda_i = \mu_i$ by Proposition~2.9. Hence $f$ is well-defined.
+
+    Next we show that $f$ is affine. Let
+    %
+    \begin{equation*}
+        x = \lambda_0 v_0 + \cdots + \lambda_d v_d
+        \quad \text{and} \quad
+        y = \mu_0 v_0 + \cdots + \mu_d v_d
+    \end{equation*}
+    %
+    with $\lambda_0 + \cdots + \lambda_d = 1$ and $\mu_0 + \cdots + \mu_d = 1$, and let $t \in \reals$. Then
+    %
+    \begin{equation*}
+        \sum_{i=0}^d \bigl( (1-t)\lambda_i + t\mu_i \bigr)
+            = (1-t) \sum_{i=0}^d\lambda_i + t \sum_{i=0}^d\mu_i
+            = (1-t) + t
+            = 1.
+    \end{equation*}
+    %
+    Therefore, since
+    %
+    \begin{equation*}
+        (1-t)x + ty
+            = \sum_{i=0}^d \bigl( (1-t)\lambda_i + t\mu_i \bigr) v_i,
+    \end{equation*}
+    %
+    we have
+    %
+    \begin{align*}
+        f((1-t)x + ty)
+            &= \bigl( (1-t)\lambda_0 + t\mu_0, \ldots, (1-t)\lambda_d + t\mu_d \bigr) \\
+            &= (1-t)(\lambda_0, \ldots, \lambda_d) + t(\mu_0, \ldots, \mu_d) \\
+            &= (1-t)f(x) + tf(y),
+    \end{align*}
+    %
+    so $f$ is affine.
+\end{solution}
+
+
+\begin{exerciseframed*}[12]
+    Prove that a non-empty open subset $U \subseteq \reals^d$ has dimension $\dim U = d$. Show that a subset $S \subseteq \reals^d$ with $\dim S = d$ contains a non-empty open subset.
+\end{exerciseframed*}
+
+\newcommand{\aff}{\operatorname{aff}}
+
+\begin{solution}
+    Let $x \in U$, and let $(e_1, \ldots, e_d)$ be the standard basis for $\reals^d$. Since $U$ is open there is some $\delta > 0$ such that $x + \delta e_i \in U$ for all $i$. The linear subspace $-x + \aff U$ has dimension $d$, so $U$ has dimension $d$.
+
+    The latter claim is in fact false, since if $S$ is e.g. the collection of points $\delta e_i$ along with the origin, then $S$ has dimension $d$ (since $\aff S$ contains each of the coordinate axes, hence the entire $\reals^d$) but clearly contains no non-empty open subset.
+\end{solution}
+
+\end{document}
