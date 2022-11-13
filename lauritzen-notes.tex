@@ -158,6 +158,9 @@
 \setlist[solutionsec]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\solutionlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
 
 
+\newcommand{\aff}{\operatorname{aff}}
+
+
 \begin{document}
 
 \maketitle
@@ -169,6 +172,7 @@
 \section*{General notes}
 
 \begin{remarkbreak}[Linear subspaces are null spaces]
+    \label{rem:linear-subspaces-are-null-spaces}
     In the proof of Proposition~2.6 we use the fact that every linear subspace $W$ of $\reals^d$ is the null space for some $m \prod d$ matrix $A$ with $m \leq d$. We prove a more general claim:
     %
     \begin{displaytheorem}
@@ -187,6 +191,19 @@
     so $u + u' = u \in U$. Also, $\phi$ is clearly surjective.
 
     In the case of Proposition~2.6, since $\reals^d$ is finite-dimensional every subspace is complemented (e.g. by basis considerations), so there is a $\phi$ as above with $\ker\phi = W$. Since $\phi$ is surjective its codomain has dimension $m \leq d$. To obtain $A$, simply take the standard matrix representation of $\phi$.
+\end{remarkbreak}
+
+\newcommand{\nullspace}[1]{N(#1)}
+
+\begin{remarkbreak}[Solutions to systems of linear equations]
+    Let $A$ be an $m \prod d$ matrix. Recall that the solution set of the equation $Ax = b$ is $x_0 + \nullspace{A}$, where $x_0$ is a particular solution to the equation. Conversely, for any $x_0 \in \reals^d$ there is an equation with solution set $x_0 + \nullspace{A}$, namely $Ax = Ax_0$. This is clear, since $x_0$ is trivially a solution, hence the solution set is $x_0 + \nullspace{A}$.
+
+    In Proposition~2.6 we first show that any affine subspace $M$ is on the form $x_0 + W$ for some linear subspace $W$. By \cref{rem:linear-subspaces-are-null-spaces} $W = \nullspace{A}$ for some matrix $A$, so $x_0 + W$ is the solution set of the equation $Ax = Ax_0$.
+\end{remarkbreak}
+
+
+\begin{remarkbreak}[The affine hull and dimension of the empty set]
+    By definition, the affine hull of the empty set is the empty set. This is the case by Definition~2.4, and this is also the standard definition. Hence the affine hull of the empty set is not an affine subspace! In particular, it cannot have a dimension in the sense of Definition~2.7.
 \end{remarkbreak}
 
 
@@ -343,12 +360,101 @@
     Prove that a non-empty open subset $U \subseteq \reals^d$ has dimension $\dim U = d$. Show that a subset $S \subseteq \reals^d$ with $\dim S = d$ contains a non-empty open subset.
 \end{exerciseframed*}
 
-\newcommand{\aff}{\operatorname{aff}}
-
 \begin{solution}
     Let $x \in U$, and let $(e_1, \ldots, e_d)$ be the standard basis for $\reals^d$. Since $U$ is open there is some $\delta > 0$ such that $x + \delta e_i \in U$ for all $i$. The linear subspace $-x + \aff U$ has dimension $d$, so $U$ has dimension $d$.
 
     The latter claim is in fact false, since if $S$ is e.g. the collection of points $\delta e_i$ along with the origin, then $S$ has dimension $d$ (since $\aff S$ contains each of the coordinate axes, hence the entire $\reals^d$) but clearly contains no non-empty open subset.
+\end{solution}
+
+
+\chapter{Convex subsets}
+
+\section*{Exercises}
+
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\polar}[1]{{#1}^{\circ}}
+\newcommand{\trans}{^{\top}}
+
+\begin{exerciseframed*}[7]
+    We state and prove a more general result that the one given in the exercise.
+
+    For any subsets $A,B \subseteq \reals^d$ we have
+    %
+    \begin{equation*}
+        \conv (A + B)
+            = \conv A + \conv B.
+    \end{equation*}
+\end{exerciseframed*}
+
+\begin{solution}
+    The inclusion \enquote{$\subseteq$} is clear since the sum of convex sets is convex. For the converse direction, let $v \in \conv A$ and $w \in \conv B$, and write $v = \sum_{i=1}^n \lambda_i v_i$ and $w = \sum_{j=1}^m \mu_j w_j$ as convex combinations of elements in $A$ and $B$ respectively. Then
+    %
+    \begin{equation*}
+        v + w_j
+            = v + (\lambda_1 + \cdots + \lambda_n)w_j
+            = \sum_{i=1}^n \lambda_i (v_i + w_j)
+            \in \conv(A + B),
+    \end{equation*}
+    %
+    and
+    %
+    \begin{equation*}
+        v + w
+            = (\mu_1 + \cdots + \mu_n)v + w
+            = \sum_{j=1}^m \mu_j (v + w_j)
+            \in \conv\conv(A + B)
+            = \conv(A + B),
+    \end{equation*}
+    %
+    as desired.
+\end{solution}
+
+
+\begin{exerciseframed*}[9]
+    We state and prove a more general result that the one given in the exercise.
+
+    For $S \subseteq \reals^d$, prove that $\polar{(\conv S)} = \polar{S}$. If $S = \{v_1, \ldots, v_n\}$ is finite, then
+    %
+    \begin{equation*}
+        \polar{(\conv S)}
+            = \set{\alpha \in \reals^d}{\alpha\trans v_1 \leq 1, \ldots, \alpha\trans v_n \leq 1}
+            = \set{\alpha \in \reals^d}{A\alpha \leq 1},
+    \end{equation*}
+    %
+    where $A$ is the $n \prod d$ matrix with rows $v_1\trans, \ldots, v_n\trans$. In particular, polytopes are polyhedra.
+\end{exerciseframed*}
+
+\begin{solution}
+    Since $S \subseteq \conv S$, we clearly have $\polar{(\conv S)} \subseteq \polar{S}$. For the opposite inclusion, let $\alpha \in \polar{S}$ and let $\lambda_1 v_1 + \cdots + \lambda_n v_n$ be a convex combination of elements in $S$. Then
+    %
+    \begin{equation*}
+        \alpha\trans(\lambda_1 v_1 + \cdots + \lambda_n v_n)
+            = \lambda_1 \alpha\trans v_1 + \cdots + \lambda_n \alpha\trans v_n
+            \leq \lambda_1 + \cdots \lambda_n
+            = 1,
+    \end{equation*}
+    %
+    so $\alpha \in \polar{(\conv S)}$. The rest of the claims follow easily.
+\end{solution}
+
+
+\begin{exerciseframed*}[10]
+    If $F \subseteq G \subseteq C$ are convex subsets of $\reals^d$, prove that $F$ is a face of $C$ if $F$ is a face of $G$ and $G$ is a face of $C$.
+\end{exerciseframed*}
+
+\begin{solution}
+    Let $x,y \in C$ such that the open line segment $(x,y)$ intersects $F$. Then it intersects $G$, so since $G$ is a face of $C$ we have $x,y \in G$. Similarly, since $F$ is a face of $G$ we then have $x,y \in F$. Hence $F$ is a face of $C$.
+\end{solution}
+
+
+\begin{exerciseframed*}[12]
+    Prove that $C \setminus F$ is a convex subset if $F$ is a face of a convex subset $C$. Is it true that $F \subseteq C$ is a face if $C \setminus F$ is a convex subset?
+\end{exerciseframed*}
+
+\begin{solution}
+    Let $x,y \in C \setminus F$. If the open line segment $(x,y)$ intersected $F$, then we would have $x,y \in F$ since $F$ is a face of $C$. Thus $(x,y) \subseteq C \setminus F$, so in total $[x,y] \subseteq C \setminus F$. Hence $C \setminus F$ is convex.
+
+    The converse is false. For instance, remove (at least) two extreme points from a disk.
 \end{solution}
 
 \end{document}
