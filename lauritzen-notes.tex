@@ -171,35 +171,82 @@
 
 \section*{General notes}
 
-\begin{remarkbreak}[Linear subspaces are null spaces]
-    \label{rem:linear-subspaces-are-null-spaces}
-    In the proof of Proposition~2.6 we use the fact that every linear subspace $W$ of $\reals^d$ is the null space for some $m \prod d$ matrix $A$ with $m \leq d$. We prove a more general claim:
+\begin{remark}
+    Let $f \colon \reals^d \to \reals^m$ be a map. Then the following properties are equivalent:
     %
-    \begin{displaytheorem}
-        Let $V$ be a vector space, and let $U$ be a complemented subspace of $V$. Then $U$ is the kernel of some surjective linear map $\phi \colon V \to W$.
-    \end{displaytheorem}
+    \begin{enumerate}
+        \item There exists a matrix $A$ and a vector $b$ such that $f(x) = Ax + b$ for all $x \in \reals^d$.
+        
+        \item For all $x,y \in \reals^d$ and $t \in \reals$, $f((1-t)x + ty) = (1-t)f(x) + tf(y)$.
+
+        \item For all $x_1, \ldots, x_k \in \reals^d$ and $t_1, \ldots, t_k \in \reals$ with $t_1 + \cdots + t_k = 1$, $f(t_1 x_1 + \cdots + t_k x_k) = t_1 f(x_1) + \cdots + t_k f(x_k)$.
+    \end{enumerate}
     %
-    Recall that $U$ is a complemented subspace of $V$ if $V$ has a subspace $U'$ such that $V = U \oplus U'$. In this case $V$ is the coproduct of $U$ and $U'$, so if $0 \colon U \to U'$ is the the map sending every element of $U$ to $0$, then the coproduct map $\phi = [0, \id_{U'}] \colon U \oplus U' \to U'$ is a linear map with kernel $U$. To prove this last claim, note that we clearly have $U \subseteq \ker\phi$, and conversely of $u + u' \in \ker\phi$ then
+    Such a function is called \emph{affine}. Note that if $m = 1$, then $f$ is affine if and only if it is both convex and concave.
+    
+    The first property clearly entails the third, which then entails the second, so assume that $f$ has the second property. First assume that $f(0) = 0$. For $\beta \in \reals$ and $x \in \reals^d$ be thus have
     %
     \begin{equation*}
-        0
-            = \phi(u+u')
-            = 0(u) + \id_{U'}(u')
-            = u',
+        f(\beta x)
+            = f(\beta x + (1-\beta)0)
+            = \beta f(x) + (1-\beta)f(0)
+            = \beta f(x),
     \end{equation*}
     %
-    so $u + u' = u \in U$. Also, $\phi$ is clearly surjective.
+    so $f$ is homogeneous. If also $y \in \reals^d$, then
+    %
+    \begin{equation*}
+        \tfrac{1}{2} f(x + y)
+            = f \bigl( \tfrac{1}{2} x + \tfrac{1}{2} y \bigr)
+            = \tfrac{1}{2} f(x) + \tfrac{1}{2} f(y),
+    \end{equation*}
+    %
+    so $f$ is also additive, hence linear. For general $f$, simply replace $f$ with $f - f(0)$.
+\end{remark}
 
-    In the case of Proposition~2.6, since $\reals^d$ is finite-dimensional every subspace is complemented (e.g. by basis considerations), so there is a $\phi$ as above with $\ker\phi = W$. Since $\phi$ is surjective its codomain has dimension $m \leq d$. To obtain $A$, simply take the standard matrix representation of $\phi$.
-\end{remarkbreak}
 
-\newcommand{\nullspace}[1]{N(#1)}
+\begin{remark}
+    Let $f \colon \reals^d \to \reals^m$ be affine, and let $M \subseteq \reals^d$ be affine. Then the image $f[M]$ is also affine. Furthermore, for any $S \subseteq \reals^d$ we have $f[\aff S] = \aff f[S]$ (just as linear maps commute with span).
 
-\begin{remarkbreak}[Solutions to systems of linear equations]
-    Let $A$ be an $m \prod d$ matrix. Recall that the solution set of the equation $Ax = b$ is $x_0 + \nullspace{A}$, where $x_0$ is a particular solution to the equation. Conversely, for any $x_0 \in \reals^d$ there is an equation with solution set $x_0 + \nullspace{A}$, namely $Ax = Ax_0$. This is clear, since $x_0$ is trivially a solution, hence the solution set is $x_0 + \nullspace{A}$.
+    If $f(x) = Ax + b$ and $M = x_0 + W$ is affine with $W$ a subspace, then
+    %
+    \begin{equation*}
+        f[M]
+            = f[x_0 + W]
+            = A[x_0 + W] + b
+            = (Ax_0 + b) + A[W].
+    \end{equation*}
+    %
+    In particular, $\dim f[M] = \dim A[W]$. If $f$ (and hence $A$) is invertible, then we thus have $\dim f[M] = \dim W = \dim M$.
+\end{remark}
 
-    In Proposition~2.6 we first show that any affine subspace $M$ is on the form $x_0 + W$ for some linear subspace $W$. By \cref{rem:linear-subspaces-are-null-spaces} $W = \nullspace{A}$ for some matrix $A$, so $x_0 + W$ is the solution set of the equation $Ax = Ax_0$.
-\end{remarkbreak}
+
+\begin{remark}
+    If $S \subseteq \reals^d$ and $x_0 \in S$, then we claim that $\aff S = x_0 + \Span(S - x_0)$. Consider the affine map $f(x) = x - x_0$. From the above remark we have
+    %
+    \begin{equation*}
+        x_0 + \aff f[S]
+            = x_0 + f[\aff S]
+            = \aff S.
+    \end{equation*}
+    %
+    But $f[S]$ contains $0$, so $\aff f[S]$ is a subspace and hence equal to $\Span f[S]$. Furthermore, since $f$ is invertible it preserves dimensions, so if $\card{S} = m$ and is positive and finite, then $\dim S = m-1$ if and only if $\dim W = m-1$, where $W = \Span(S - x_0)$. But $W$ is also spanned by $S \setminus \{x_0\} - x_0$ which has $m-1$ elements, so $S$ is affinely independent if and only if $S \setminus \{x_0\} - x_0$ is linearly independent.
+\end{remark}
+
+
+\begin{remark}
+    If $f \colon \reals^d \to \reals^d$ preserves the Euclidean metric, then it is affine. Replacing $f$ with $f - f(0)$ we may assume that $f(0) = 0$, and so that $f$ also preserves the inner product. For all $x,y,z \in \reals^d$ and $\beta \in \reals$ we have
+    %
+    \begin{align*}
+        \inner{f(\beta x + y)}{f(z)}
+            &= \inner{\beta x + y}{z} \\
+            &= \beta \inner{x}{z} + \inner{y}{z} \\
+            &= \beta \inner{f(x)}{f(z)} + \inner{f(y)}{f(z)} \\
+            &= \inner{\beta f(x) + f(y)}{f(z)}.
+    \end{align*}
+    %
+    Since $f$ is surjective, the claim follows.
+\end{remark}
 
 
 \begin{remarkbreak}[The affine hull and dimension of the empty set]
@@ -224,63 +271,6 @@
             = (1-t)b + tb
             = b.
     \end{equation*}
-\end{solution}
-
-
-\begin{exerciseframed*}[9]
-    Prove that $f(x) = h(x) + b$ is an affine map if $h \colon \reals^d \to \reals^m$ is a linear map and $b \in \reals^m$. Prove that $h(x) = f(x) - f(0)$ is a linear map if $f : \reals^d \to \reals^m$ is an affine map.
-\end{exerciseframed*}
-
-\begin{solution}
-    First assume that $h$ is linear, and let $u,v \in \reals^d$ and $t \in \reals$. Then
-    %
-    \begin{align*}
-        f((1-t)u + tv)
-            &= h((1-t)u + tv) + b \\
-            &= (1-t)h(u) + th(v) + (1-t)b + t(b) \\
-            &= (1-t)(h(u) + b) + t(h(v) + b) \\
-            &= (1-t)f(u) + tf(v),
-    \end{align*}
-    %
-    so $f$ is affine. Next assume that $f$ is affine, and let $u,v \in \reals^d$ and $\beta \in \reals$. If $\beta = -1$ then
-    %
-    \begin{align*}
-        h((-1)u)
-            &= f((-1)u) - f(0)
-             = f(2 \cdot 0 + (-1)u) - f(0) \\
-            &= 2f(0) - f(u) - f(0)
-             = -h(u).
-    \end{align*}
-    %
-    If instead $\beta \neq -1$, then
-    %
-    \begin{align*}
-        h(\beta u + v)
-            &= f(\beta u + v) - f(0) \\
-            &= f \bigl(
-                    \tfrac{\beta}{\beta+1} (\beta+1)u
-                    + \tfrac{1}{\beta+1} (\beta+1)v
-                \bigr)
-                - f(0) \\
-            &= \tfrac{\beta}{\beta+1} f((\beta+1)u)
-                + \tfrac{1}{\beta+1} f((\beta+1)v)
-                + \bigl(
-                    \tfrac{\beta^2}{\beta+1}
-                    + \tfrac{\beta}{\beta+1}
-                    - (\beta+1)
-                \bigr) f(0) \\
-            &= \beta \bigl( 
-                    \tfrac{1}{\beta+1} f((\beta+1)u)
-                    + \tfrac{\beta}{\beta+1} f(0)
-                \bigr)
-                    + \bigl( \tfrac{1}{\beta+1} f((\beta+1)v)
-                    + \tfrac{\beta}{\beta+1} f(0)
-                \bigr)
-                - (\beta+1)f(0) \\
-            &= \beta f(u) + f(v) - (\beta+1) f(0) \\
-            &= \beta (f(u) - f(0)) + (f(v) - f(0)) \\
-            &= \beta h(u) + h(v).
-    \end{align*}
 \end{solution}
 
 
