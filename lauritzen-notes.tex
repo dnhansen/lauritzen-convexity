@@ -206,6 +206,54 @@
 
 
 \begin{remark}
+    Let $M \subseteq \reals^d$ be nonempty. Then the following properties are equivalent:
+    %
+    \begin{enumerate}
+        \item For all $x,y \in M$ and $t \in \reals$, $(1-t)x + ty \in M$.
+
+        \item For all $x_1, \ldots, x_k \in \reals^d$ and $t_1, \ldots, t_k \in \reals$ with $t_1 + \cdots + t_k = 1$, $t_1 x_1 + \cdots + t_k x_k \in M$.
+
+        \item There is a linear subspace $W \subseteq \reals^d$ and an element $x_0 \in M$ such that $M = x_0 + W$. In this case $W = \set{x-y}{x,y \in M}$, and the identity $M = x_0 + W$ holds for all $x_0 \in M$.
+
+        \item There is an $m \times d$ matrix $A$ and a vector $b$ such that $M = \set{x \in \reals^d}{Ax=b}$.
+
+        \item There is an affine map $f \colon \reals^d \to \reals^m$ such that $M = \set{x \in \reals^d}{f(x) = 0}$.
+    \end{enumerate}
+    %
+    If $M$ has any of these properties, then $M$ is called \emph{affine}.
+    
+    Clearly (b) implies (a), and the converse follows by noticing that when $k > 1$ at least one $t_1$ must be different from $1$, say $t_k$, so
+    %
+    \begin{equation*}
+        t_1 x_1 + \cdots + t_k x_k
+            = (1-t_k) \biggl( \frac{t_1}{1-t_k} x_1 + \cdots + \frac{t_{k-1}}{1-t_k} x_{k-1} \biggr) + t_k x_k.
+    \end{equation*}
+    %
+    Hence (b) follows by induction. Assuming (b), let $W = \set{x-y}{x,y \in M}$, and consider $x_1,x_2,y_1,y_2 \in M$ and $\beta \in \reals$. Then
+    %
+    \begin{equation*}
+        \beta(x_1-y_1) + (x_2-y_2)
+            = (\beta x_1 + x_2 + (-\beta)y_1) - y_2
+            \in W,
+    \end{equation*}
+    %
+    so $W$ is a subspace. For any $x_0,x,y \in M$ and we have $x_0 + (x-y) \in M$, and conversely $x = x_0 + (x-x_0) \in x_0 + W$, so $M = x_0 + W$. If $W'$ is another subspace such that $M = x_0 + W'$ for some $x_0$, then $W' = M - x_0 = W$.
+    
+    If instead (c) holds, and $x,y \in M$ and $t \in \reals$, then $x = x_0 + x'$ and $y = x_0 + y'$ for some $x',y' \in W$, and so
+    %
+    \begin{equation*}
+        (1-t)x + ty
+            = x_0 + (1-t)x' + ty'
+            \in x_0 + W,
+    \end{equation*}
+    %
+    implying (a).
+
+    The equivalence between (c), (d) and (e) is obvious since $W$ is the nullspace of some matrix, and we may choose any $x_0$ such that $Ax_0 = b$. (Furthermore, (e) easily implies (b).)
+\end{remark}
+
+
+\begin{remark}
     Let $f \colon \reals^d \to \reals^m$ be affine, and let $M \subseteq \reals^d$ be affine. Then the image $f[M]$ is also affine. Furthermore, for any $S \subseteq \reals^d$ we have $f[\aff S] = \aff f[S]$ (just as linear maps commute with span).
 
     If $f(x) = Ax + b$ and $M = x_0 + W$ is affine with $W$ a subspace, then
@@ -257,22 +305,6 @@
 \section*{Exercises}
 
 % [TODO exercise references]
-
-\begin{exerciseframed*}[4]
-    Prove that $M = \set{v \in \reals^d}{Av = b}$ is an affine subspace of $\reals^d$, where $A$ is an $m \prod d$ matrix and $b \in \reals^m$.
-\end{exerciseframed*}
-
-\begin{solution}
-    For $u,v \in \reals^d$ and $t \in \reals$ we have
-    %
-    \begin{equation*}
-        A((1-t)u + tv)
-            = (1-t)Au + tAv
-            = (1-t)b + tb
-            = b.
-    \end{equation*}
-\end{solution}
-
 
 \begin{exerciseframed*}[10]
     Prove that you can have no more than $d+1$ affinely independent vectors in $\reals^d$.
